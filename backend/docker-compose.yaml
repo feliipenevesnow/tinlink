@@ -1,0 +1,17 @@
+version: "3"
+services:
+  db:
+    image: mysql:8.0.34
+    container_name: mysql-tinlink
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_DATABASE: 
+      MYSQL_USER: 
+      MYSQL_PASSWORD: 
+    volumes: 
+      - ./dados:/var/lib/mysql
+    ports:
+      - "3309:3306"
+volumes:
+    dados:

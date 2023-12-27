@@ -1,0 +1,7 @@
+{
+  "name": "TinLink",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model notificacao {
+  codigo                               Int      @default(autoincrement())
+  usuario                              Int
+  data                                 DateTime @db.DateTime(0)
+  conteudo                             String   @db.Text
+  usuario_notificacao_usuarioTousuario usuario  @relation("notificacao_usuarioTousuario", fields: [usuario], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "fk_notificacao_usuario1")
+
+  @@id([codigo, usuario])
+  @@index([usuario], map: "fk_notificacao_usuario1_idx")
+}
+
+model usuario {
+  codigo                                   Int           @id @default(autoincrement())
+  cidade                                   Int
+  nome                                     String        @db.VarChar(30)
+  sobrenome                                String        @db.VarChar(30)
+  cpf                                      String        @unique(map: "cpf_UNIQUE") @db.VarChar(14)
+  endereco                                 String        @db.VarChar(60)
+  bairro                                   String        @db.VarChar(60)
+  email                                    String        @unique(map: "email_UNIQUE") @db.VarChar(60)
+  senha                                    String        @db.VarChar(60)
+  celular                                  String        @db.VarChar(15)
+  confirmado                               Int           @db.TinyInt
+  nivel_acesso                             String        @db.VarChar(20)
+  numero                                   Int?
+  foto_perfil                              String?       @db.Text
+  biografia                                String?       @db.Text
+  candidatura_candidatura_usuarioTousuario candidatura[] @relation("candidatura_usuarioTousuario")
+  curriculo_curriculo_usuarioTousuario     curriculo[]   @relation("curriculo_usuarioTousuario")
+  denuncia_denuncia_usuarioTousuario       denuncia[]    @relation("denuncia_usuarioTousuario")
+  notificacoes                             notificacao[] @relation("notificacao_usuarioTousuario")
+  cidade_usuario_cidadeTocidade            cidade        @relation("usuario_cidadeTocidade", fields: [cidade], references: [cidade], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_cidade1")
+
+  @@index([cidade], map: "fk_usuario_cidade1_idx")
+}
+
+model candidatura {
+  usuario                              Int
+  vaga                                 Int
+  empresa                              Int
+  aprovado                             Int       @db.TinyInt
+  data_encontro                        DateTime? @db.DateTime(0)
+  endereco_encontro                    String?   @db.VarChar(60)
+  numero_encontro                      Int?
+  bairro_encontro                      String?   @db.VarChar(60)
+  detalhes_do_encontro                 String?   @db.Text
+  usuario_candidatura_usuarioTousuario usuario   @relation("candidatura_usuarioTousuario", fields: [usuario], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_has_vaga_usuario1")
+  vaga_candidatura_vaga_empresaTovaga  vaga      @relation("candidatura_vaga_empresaTovaga", fields: [vaga, empresa], references: [codigo, empresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_has_vaga_vaga1")
+
+  @@id([usuario, vaga, empresa])
+  @@index([usuario], map: "fk_usuario_has_vaga_usuario1_idx")
+  @@index([vaga, empresa], map: "fk_usuario_has_vaga_vaga1_idx")
+}
+
+model cidade {
+  cidade                         Int       @id @default(autoincrement())
+  municipio                      String    @db.VarChar(100)
+  estado                         String    @db.VarChar(2)
+  cep                            String    @db.VarChar(10)
+  empresa_empresa_cidadeTocidade empresa[] @relation("empresa_cidadeTocidade")
+  usuario_usuario_cidadeTocidade usuario[] @relation("usuario_cidadeTocidade")
+}
+
+model curriculo {
+  codigo                             Int     @default(autoincrement())
+  usuario                            Int
+  arquivo                            String  @db.Text
+  usuario_curriculo_usuarioTousuario usuario @relation("curriculo_usuarioTousuario", fields: [usuario], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "fk_curriculo_usuario1")
+
+  @@id([codigo, usuario])
+  @@index([usuario], map: "fk_curriculo_usuario1_idx")
+}
+
+model denuncia {
+  usuario                           Int
+  vaga                              Int
+  empresa                           Int
+  motivo                            String  @db.Text
+  arquivo                           String? @db.Text
+  usuario_denuncia_usuarioTousuario usuario @relation("denuncia_usuarioTousuario", fields: [usuario], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_has_vaga_usuario2")
+  vaga_denuncia_vaga_empresaTovaga  vaga    @relation("denuncia_vaga_empresaTovaga", fields: [vaga, empresa], references: [codigo, empresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_has_vaga_vaga2")
+
+  @@id([usuario, vaga, empresa])
+  @@index([usuario], map: "fk_usuario_has_vaga_usuario2_idx")
+  @@index([vaga, empresa], map: "fk_usuario_has_vaga_vaga2_idx")
+}
+
+model empresa {
+  codigo                        Int     @id @default(autoincrement())
+  cidade                        Int
+  nome                          String  @db.VarChar(30)
+  endereco                      String  @db.VarChar(60)
+  bairro                        String  @db.VarChar(60)
+  email                         String  @unique(map: "email_UNIQUE") @db.VarChar(60)
+  senha                         String  @db.VarChar(60)
+  celular                       String  @db.VarChar(15)
+  numero                        Int
+  cnpj                          String  @unique(map: "cpf_UNIQUE") @db.VarChar(18)
+  confirmado                    Int     @db.TinyInt
+  foto_empresa                  String? @db.Text
+  cidade_empresa_cidadeTocidade cidade  @relation("empresa_cidadeTocidade", fields: [cidade], references: [cidade], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_cidade1")
+  vaga_vaga_empresaToempresa    vaga[]  @relation("vaga_empresaToempresa")
+
+  @@index([cidade], map: "fk_empresa_cidade1_idx")
+}
+
+model vaga {
+  codigo                                     Int           @default(autoincrement())
+  empresa                                    Int
+  titulo                                     String        @db.VarChar(60)
+  descricao                                  String        @db.Text
+  definir                                    Int           @db.TinyInt
+  vaga_ocupada                               Int           @db.TinyInt
+  abertura                                   DateTime      @db.DateTime(0)
+  requisitos                                 String?       @db.Text
+  fechamento                                 DateTime?     @db.DateTime(0)
+  pagamento_diaria                           Float?
+  pagamento_semanal                          Float?
+  pagamento_mensal                           Float?
+  candidatura_candidatura_vaga_empresaTovaga candidatura[] @relation("candidatura_vaga_empresaTovaga")
+  denuncia_denuncia_vaga_empresaTovaga       denuncia[]    @relation("denuncia_vaga_empresaTovaga")
+  empresa_vaga_empresaToempresa              empresa       @relation("vaga_empresaToempresa", fields: [empresa], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "fk_vaga_empresa")
+
+  @@id([codigo, empresa])
+  @@index([empresa], map: "fk_vaga_empresa_idx")
+}
