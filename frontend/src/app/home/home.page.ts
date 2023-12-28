@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,7 @@ export class HomePage {
   mes: string;
   ano: number;
 
-  constructor() {
+  constructor(private router: Router)  {
     this.data = new Date();
     this.dia = this.data.getDate();
 
@@ -20,6 +22,15 @@ export class HomePage {
 
     this.ano = this.data.getFullYear();
   }
+
+  cadastrarColaborador(){
+    this.router.navigate(['/cadastro-colaborador']);
+  }
+
+  cadastrarEmpregador(){
+    this.router.navigate(['/cadastro-empregador']);
+  }
+
 
 }
 

@@ -1,16 +1,16 @@
 <ion-header>
   <div class="menu">
     <img class="img-header" src="assets/img/epi.png" alt="Logo da Empresa">
-    <a href="/prefeitura">Prefeitura</a>
+    <a href="https://www.presidenteepitacio.sp.gov.br/">Prefeitura</a>
     <a href="/vagas">Vagas</a>
     <a href="/sobre">Sobre</a>
     <a href="/entre">Entre</a>
-    <span>Trabalhe Conosco</span>
+    <span style="color: white;">Trabalhe Conosco</span>
   </div>
   <div class="city">
 
   </div>
-  <b style="position: absolute; bottom: 10%; right: 15%;">Presidente Epitácio / SP</b>
+  <b style="color: white; position: absolute; bottom: 10%; right: 15%;">Presidente Epitácio / SP</b>
 </ion-header>
 
 <ion-content>
@@ -36,7 +36,7 @@
                 Cadastre-se no site como colaborador para conseguir ter acesso as vagas disponíveis em nosso município.
               </p>
             </div>
-            <ion-button class="buttons">
+            <ion-button (click)="cadastrarColaborador()" class="buttons">
               Cadastre-se
               <div class="buttons-icon">
                 <ion-icon style="font-size: 20px;" name="arrow-forward-outline"></ion-icon>
@@ -59,7 +59,7 @@
                 Consiga achar hoje mesmo pessoas disponíveis para trabalhar.
                </p>
             </div>
-            <ion-button class="buttons">
+            <ion-button (click)="cadastrarEmpregador()" class="buttons">
               Cadastre-se
               <div class="buttons-icon">
                 <ion-icon style="font-size: 20px;" name="arrow-forward-outline"></ion-icon>

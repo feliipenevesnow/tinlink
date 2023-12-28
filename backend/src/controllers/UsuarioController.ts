@@ -6,10 +6,9 @@ const jwt = require("jsonwebtoken");
 
 export class UsuarioController {
     
-    async getUsuarios(req: Request, res: Response) {
-        const { search, page, perPage, orderBy } = req.query;
-        const response = await usuarioService.findMany(String(search), Number(page),
-            Number(perPage), String(orderBy), Number(req.params.idLogado));
+    async findMany(req: Request, res: Response) {
+
+        const response = await usuarioService.findMany();
 
         if (response.ok)
             return res.status(200).send(response.data)
@@ -20,20 +19,9 @@ export class UsuarioController {
 
     }
 
-    async getUsuariosByType(req: Request, res: Response) {
-        const { type, orderBy } = req.query;
-        const response = await usuarioService.findByType(String(type), String(orderBy));
 
-        if (response.ok)
-            return res.status(200).send(response.data)
-        else {
-            const status = getStatusResponseError(response)
-            return res.status(status).send(response)
-        }
 
-    }
-
-    async createUsuario(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         const response = await usuarioService.create(req.body);
         if (response.ok)
             return res.status(200).send(response)
@@ -43,17 +31,8 @@ export class UsuarioController {
         }
     }
 
-    async importProfessor(req: Request, res: Response) {
-        const response = await usuarioService.importProfessores(req.body);
-        if (response.ok)
-            return res.status(200).send(response)
-        else {
-            const status = getStatusResponseError(response)
-            return res.status(status).send(response)
-        }
-    }
-
-    async updateUsuario(req: Request, res: Response) {
+ 
+    async update(req: Request, res: Response) {
         const response = await usuarioService.update(req.body, Number(req.params.id));
         if (response.ok)
             return res.status(200).send(response)
@@ -63,17 +42,9 @@ export class UsuarioController {
         }
     }
 
-    async isCoordenadorStill(req: Request, res: Response) {
-        const response = await usuarioService.verifyIfCoordenadorStill(Number(req.params.idUsuario));
-        if (response.ok)
-            return res.status(200).send(response)
-        else {
-            const status = getStatusResponseError(response)
-            return res.status(status).send(response)
-        }
-    }
+ 
 
-    async deleteUsuario(req: Request, res: Response) {
+    async delete(req: Request, res: Response) {
         const response = await usuarioService.delete(Number(req.params.id));
         if (response.ok)
             return res.status(200).send(response)
@@ -83,7 +54,7 @@ export class UsuarioController {
         }
     }
 
-    async findUsuarioById(req: Request, res: Response) {
+    async findById(req: Request, res: Response) {
         const response = await usuarioService.findById(Number(req.params.id));
         if (response.ok)
             return res.status(200).send(response.data)
@@ -93,29 +64,9 @@ export class UsuarioController {
         }
     }
 
-    async findUsuarioByProntuario(req: Request, res: Response) {
-        const response = await usuarioService.findByProntuario(req.params.prontuario);
-        if (response.ok)
-            return res.status(200).send(response.data)
-        else {
-            const status = getStatusResponseError(response)
-            return res.status(status).send(response)
-        }
-    }
-
-    async changePasswordByEmail(req: Request, res: Response) {
-        const {email, new_password} = req.body;
-        const response = await usuarioService.changePasswordByEmail(email, new_password);
-        if (response.ok)
-            return res.status(200).send(response.data)
-        else {
-            const status = getStatusResponseError(response)
-            return res.status(status).send(response)
-        }
-    }
-
+ 
     async login(req: Request, res: Response) {
-        //desestruturacao
+ 
         const { prontuario, senha } = req.body;
         const response = await usuarioService.findToLogin(prontuario, senha);
         if (response.ok) {
