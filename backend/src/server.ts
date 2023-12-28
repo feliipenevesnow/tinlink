@@ -33,8 +33,7 @@ process.env.NODE_ENV === 'production' ? app.use(morgan('combined')) : ''
 
 
 app.use('/usuario', UsuarioRoutes);
-app.use('/arquivos', ArquivoRoutes);
-app.use('/vaga', VagaRoutes);
+app.use('/arquivos', ArquivoRoutes)
 
 
 app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}`));
