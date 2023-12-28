@@ -20,10 +20,25 @@
   text-decoration: none;
 }
 
+.menu a:hover{
+  padding: 10px;
+  background-color: #384285;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
 .img-header {
   height: 70px;
   width: 190px;
+  cursor: pointer;
+}
+
+
+.img-perfil{
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  cursor: pointer;
 }
 
 .centralizado {
@@ -132,4 +147,6 @@
     flex-direction: column;
     justify-content: space-around;
   }
+
+ 
 }

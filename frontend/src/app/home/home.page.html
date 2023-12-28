@@ -1,11 +1,18 @@
 <ion-header>
   <div class="menu">
     <img class="img-header" src="assets/img/epi.png" alt="Logo da Empresa">
-    <a href="https://www.presidenteepitacio.sp.gov.br/">Prefeitura</a>
+    <a class="buttons-menu-a" href="https://www.presidenteepitacio.sp.gov.br/">Prefeitura</a>
     <a href="/vagas">Vagas</a>
     <a href="/sobre">Sobre</a>
-    <a href="/entre">Entre</a>
-    <span style="color: white;">Trabalhe Conosco</span>
+    <a href="/sobre">Painel</a>
+    <a *ngIf="usuarioLogado == null" (click)="logar()">Entre</a>
+    <a *ngIf="usuarioLogado != null" (click)="logout()">Sair</a>
+    <span *ngIf="usuarioLogado == null" style="color: white;">Trabalhe Conosco</span>
+    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+      <span *ngIf="usuarioLogado != null" style="color: white;">{{usuarioLogado.nome}}</span>
+      <img class="img-perfil" *ngIf="usuarioLogado != null && usuarioLogado.nivel_acesso == 'COLABORADOR' && usuarioLogado.foto_perfil" [src]="usuarioLogado.foto_perfil" alt="">  
+      <img class="img-perfil" *ngIf="usuarioLogado != null && usuarioLogado.foto_empresa" [src]="usuarioLogado.foto_empresa" alt="">  
+    </div>
   </div>
   <div class="city">
 
@@ -17,7 +24,8 @@
   <div class="vertical">
     <div class="centralizado vertical">
       <h1 class="main-title"> Encontre emprego dentro da sua própria residência </h1>
-      <div class="div-data"><ion-icon color="#e8aff6" name="calendar-outline"></ion-icon> <b style="margin-left: 10px;" color="#e8aff6">{{mes}} {{dia}}, {{ano}}</b> </div>
+      <div class="div-data"><ion-icon color="#e8aff6" name="calendar-outline"></ion-icon> <b style="margin-left: 10px;"
+          color="#e8aff6">{{mes}} {{dia}}, {{ano}}</b> </div>
     </div>
 
     <div>
@@ -57,7 +65,7 @@
               <p>
                 Cadastre-se como empregador para disponibilizar vagas de emprego como: vaga fixa, freelancer, diária.
                 Consiga achar hoje mesmo pessoas disponíveis para trabalhar.
-               </p>
+              </p>
             </div>
             <ion-button (click)="cadastrarEmpregador()" class="buttons">
               Cadastre-se
@@ -76,4 +84,3 @@
   </div>
 
 </ion-content>
-

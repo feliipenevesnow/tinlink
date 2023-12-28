@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {  ToastController } from '@ionic/angular';
 import { UsuarioService } from 'src/app/service/usuario.service';
+import { NavController } from '@ionic/angular';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class CadastroPage implements OnInit {
     private formBuilder: FormBuilder,
     private toastController: ToastController,
     private usuarioService: UsuarioService,
-    private router: Router
+    private router: Router,
+    private navCtrl: NavController
   ) {
     this.cadastroForm = this.formBuilder.group({
       nome: ['', Validators.required],
@@ -100,10 +102,12 @@ export class CadastroPage implements OnInit {
     let usuario = this.cadastroForm.value;
 
     const response = await this.usuarioService.create(usuario);
-    console.log(response)
+
     if(response.ok){
-      this.presentToast('bottom', 'Cadastro realizado com sucesso! 😍.', 'success');
+      this.presentToast('bottom', response.message, 'success');
       this.router.navigate(['/home']);   
+    }else{
+      this.presentToast('bottom', response.error.message, 'danger');
     }
   }
 
@@ -227,11 +231,16 @@ export class CadastroPage implements OnInit {
     return valor;
   }
   
-  
-  
 
+  goBack() {
+    this.navCtrl.back();
+  }
 
-  
-  
+  logar(){
+    this.router.navigate(['/login']);
+  }
 
+  inicio(){
+    this.router.navigate(['/home']);
+  }
 }

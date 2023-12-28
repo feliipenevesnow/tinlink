@@ -6,14 +6,14 @@ import { AuthenticationService } from '../utils/authentication.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class EmpresaService {
 
-  constructor(private http: HttpClient,) { }
+  constructor(private http: HttpClient, ) { }
 
   async findMany(): Promise<any> {
     try {
       const response = await this.http
-        .get(`${environment.API}/usuario/findMany`)
+        .get(`${environment.API}/empresa/findMany`)
         .toPromise();
       return response;
     } catch (error) {
@@ -22,10 +22,10 @@ export class UsuarioService {
     }
   }
 
-  async create(usuario: any): Promise<any> {
+  async create(empresa: any): Promise<any>  {
     try {
       const response = await this.http
-        .post(`${environment.API}/usuario/create`, usuario)
+        .post(`${environment.API}/empresa/create`, empresa)
         .toPromise()
       return response;
     } catch (error) {

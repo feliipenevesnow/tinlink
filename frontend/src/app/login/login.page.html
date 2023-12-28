@@ -1,0 +1,112 @@
+<ion-header>
+  <div class="menu">
+    <img (click)="inicio()" class="img-header" src="assets/img/epi.png" alt="Logo da Empresa">
+    <a href="https://www.presidenteepitacio.sp.gov.br/">Prefeitura</a>
+    <a href="/vagas">Vagas</a>
+    <a href="/sobre">Sobre</a>
+    <a (click)="logar()">Entre</a>
+    <span style="color: white;">Trabalhe Conosco</span>
+  </div>
+  <div class="city">
+
+  </div>
+  <b style="color: white; position: absolute; bottom: 10%; right: 15%;">Presidente Epitácio / SP</b>
+</ion-header>
+<ion-content class="ion-content">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h2 class="text" text-center>
+          <div (click)="inicio()" class="seta">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </div>
+          <div>
+            Entrar
+          </div>
+        </h2>
+      </ion-col>
+    </ion-row>
+
+
+    <div class="login-container">
+      <form [formGroup]="cadastroForm" (ngSubmit)="efetuarLogin()" class="login-form">
+        <ion-row>
+          <ion-col *ngIf="isUsuario" size="12">
+            <ion-item>
+              <ion-label position="floating">CPF</ion-label>
+              <ion-input formControlName="cpf" maxlength="14" (keyup)="digitaCPF()"></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col *ngIf="!isUsuario" size="12">
+            <ion-item>
+              <ion-label position="floating">CNPJ</ion-label>
+              <ion-input formControlName="cnpj" maxlength="18" (keyup)="digitaCNPJ()"></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="12">
+            <ion-item class="login-item">
+              <ion-label position="floating" class="login-label">Senha</ion-label>
+              <ion-input formControlName="senha" type="text" class="login-input"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <p style="color:black">Entrar como</p>
+
+        <ion-radio-group value="true">
+          <ion-row>
+            <ion-col size="6">
+              <ion-item (click)="trocarLogin()">
+                <ion-label>Colaborador</ion-label>
+                <ion-radio value="true"></ion-radio>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item (click)="trocarLogin()">
+                <ion-label>Empregador</ion-label>
+                <ion-radio value="false"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-radio-group>
+
+
+
+
+        <ion-row>
+          <ion-col size="12">
+            <ion-button expand="block" type="submit" class="buttons">
+              Entrar
+              <div class="login-buttons-icon">
+                <ion-icon style="font-size: 20px; margin-left: 10px;" name="arrow-forward-outline"></ion-icon>
+              </div>
+            </ion-button>
+
+            <p style="color:black">Cadastre-se como</p>
+
+            <ion-row>
+              <ion-col size="6">
+                <ion-button (click)="cadastrarColaborador()" expand="block" type="button"
+                  class="buttons login-discreet">
+                  Colaborador
+                </ion-button>
+              </ion-col>
+              <ion-col size="6">
+                <ion-button (click)="cadastrarEmpregador()" expand="block" type="button" class="buttons login-discreet">
+                  Empregador
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+            <a href="#" class="login-forgot-password" style="color:black">Esqueci minha senha</a>
+          </ion-col>
+        </ion-row>
+      </form>
+    </div>
+
+
+
+  </ion-grid>
+</ion-content>

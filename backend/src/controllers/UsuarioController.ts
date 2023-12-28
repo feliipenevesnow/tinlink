@@ -67,12 +67,12 @@ export class UsuarioController {
  
     async login(req: Request, res: Response) {
  
-        const { prontuario, senha } = req.body;
-        const response = await usuarioService.findToLogin(prontuario, senha);
+        const { cpf, senha } = req.body;
+        const response = await usuarioService.findToLogin(cpf, senha);
         if (response.ok) {
             const payload = {
-                userProntuario: prontuario,
-                expiresIn: 10800, // expires in 3h
+                userCPF: cpf,
+                expiresIn: 10800, 
             }
           const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET); 
           return res.status(200).json({
@@ -81,6 +81,6 @@ export class UsuarioController {
           });
         }
         const status = getStatusResponseError(response)
-        return res.status(status).json({ message: "Login failed!" });
+        return res.status(status).json({ message: "CPF ou SENHA incorreto(s)." });
       }
 }
