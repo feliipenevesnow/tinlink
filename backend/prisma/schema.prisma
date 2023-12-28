@@ -104,7 +104,7 @@ model empresa {
   senha                         String  @db.VarChar(60)
   celular                       String  @db.VarChar(15)
   numero                        Int
-  cnpj                          String  @unique(map: "cpf_UNIQUE") @db.VarChar(18)
+  cnpj                          String  @unique(map: "cnpj_UNIQUE") @db.VarChar(18)
   confirmado                    Int     @db.TinyInt
   foto_empresa                  String? @db.Text
   cidade_empresa_cidadeTocidade cidade  @relation("empresa_cidadeTocidade", fields: [cidade], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_cidade1")

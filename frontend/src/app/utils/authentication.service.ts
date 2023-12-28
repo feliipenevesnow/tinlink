@@ -43,13 +43,13 @@ export class AuthenticationService implements OnInit {
       this.usuarioLogadoSubject.next(user);
       return user;
     } catch (e) {
-      return {id: 0, nome_completo: ''};
+      return { id: 0, nome_completo: '' };
     }
   }
 
   async getisLoggedIn() {
     await this.init()
-    if (this.token){
+    if (this.token) {
       await this.validate()
     }
     return this.loggedIn.asObservable();
@@ -60,25 +60,92 @@ export class AuthenticationService implements OnInit {
     await this.storage.set("user", usuario);
   }
 
-  async login(usuario: { prontuario: string; senha: string; }): Promise<boolean> {
-    if (usuario) {
-      return this.http
-        .post<boolean>(`${environment.API}/usuario/login`, usuario)
-        .toPromise()
-        .then((resultado: any) => {
-          this.token = resultado.token;
-          this.storage.set("token", this.token);
-          this.storage.set("user", resultado.data);
-          this.loggedIn.next(true);
-          return true;
-        })
-        .catch((err) => {
-          this.token = "";
-          return false;
-        });
+  async loginColaborador(usuario: { cpf: string; senha: string; }): Promise<boolean> {
+    if (!usuario) {
+      return false;
     }
-    return false;
+  
+    try {
+      const resultado: any = await this.http.post<any>(`${environment.API}/usuario/login`, usuario).toPromise();
+  
+      let nomeArquivo = 'felipe.png';
+      const imageResponse: any = await this.http.get(`${environment.API}/arquivos/${nomeArquivo}`, { responseType: 'blob' }).toPromise();
+  
+      if (!imageResponse) {
+        throw new Error('Erro ao obter a imagem do perfil');
+      }
+  
+      const imageBlob: Blob = imageResponse as Blob;
+  
+      const reader = new FileReader();
+      const readerPromise = new Promise<string>((resolve, reject) => {
+        reader.onloadend = () => {
+          resolve(reader.result as string);
+        };
+        reader.onerror = reject;
+      });
+  
+      reader.readAsDataURL(imageBlob);
+      const imageDataURL: string = await readerPromise;
+  
+      resultado.data.foto_perfil = imageDataURL;
+  
+      this.token = resultado.token;
+      this.storage.set("token", this.token);
+      this.storage.set("user", resultado.data);
+      this.loggedIn.next(true);
+      
+      return true;
+    } catch (error) {
+      this.token = "";
+      return false;
+    }
   }
+  
+  
+
+  async loginEmpresa(empresa: { cnpj: string; senha: string; }): Promise<boolean> {
+    if (!empresa) {
+      return false;
+    }
+  
+    try {
+      const resultado: any = await this.http.post<any>(`${environment.API}/empresa/login`, empresa).toPromise();
+  
+      let nomeArquivo = 'kiporcao.jpg';
+      const imageResponse: any = await this.http.get(`${environment.API}/arquivos/${nomeArquivo}`, { responseType: 'blob' }).toPromise();
+  
+      if (!imageResponse) {
+        throw new Error('Erro ao obter a imagem do logo da empresa');
+      }
+  
+      const imageBlob: Blob = imageResponse as Blob;
+  
+      const reader = new FileReader();
+      const readerPromise = new Promise<string>((resolve, reject) => {
+        reader.onloadend = () => {
+          resolve(reader.result as string);
+        };
+        reader.onerror = reject;
+      });
+  
+      reader.readAsDataURL(imageBlob);
+      const imageDataURL: string = await readerPromise;
+  
+       resultado.data.foto_empresa = imageDataURL;
+  
+      this.token = resultado.token;
+      this.storage.set("token", this.token);
+      this.storage.set("user", resultado.data);
+      this.loggedIn.next(true);
+  
+      return true;
+    } catch (error) {
+      this.token = "";
+      return false;
+    }
+  }
+  
 
   async validate(): Promise<boolean> {
     await this.reloadIfTokenIsNull();
@@ -86,10 +153,10 @@ export class AuthenticationService implements OnInit {
       .get<boolean>(`${environment.API}/usuario/validate/valid`)
       .toPromise()
       .then((response: any) => {
-        if(response.auth == true){
+        if (response.auth == true) {
           this.loggedIn.next(true);
           return true;
-        }else{
+        } else {
           this.loggedIn.next(false);
           this.logout()
           return false;

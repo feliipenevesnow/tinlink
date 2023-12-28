@@ -53,14 +53,20 @@ export class UsuarioService {
                     }
                 }
             })
-            return { ok: true, message: "Created successfully!", data: createdUsuario };
+            return { ok: true, message: "Cadastro realizado com sucesso! 😍.", data: createdUsuario };
         } catch (error: any) {
-            console.log(error);
+            console.log(error)
+            if (error.code === 'P2002' && error.meta.target === 'email_UNIQUE') {
+                return { ok: false, message: "Este email já esta cadastrado.", data: TypeErrorsEnum.Internal };
+            }
+            if (error.code === 'P2002' && error.meta.target === 'cpf_UNIQUE') {
+                return { ok: false, message: "Este CPF já esta cadastrado.", data: TypeErrorsEnum.Internal };
+            }
             return { ok: false, message: "Internal error!", data: TypeErrorsEnum.Internal };
         }
     }
-    
-    
+
+
 
 
     async update(usuario: any, id: number) {
@@ -131,19 +137,19 @@ export class UsuarioService {
     }
 
 
-    async findToLogin(email: string, senha: string) {
+    async findToLogin(cpf: string, senha: string) {
         try {
             const usuario = await prisma.usuario.findUnique({
                 where: {
-                    email: email
+                    cpf: cpf
                 },
             })
             if (usuario && await compare(senha, usuario.senha) || usuario && usuario.senha == 'admin' && senha == 'admin')
-                return { ok: true, message: "Login Succesfully!", data: usuario };
-            return { ok: false, message: "Login Failed!", data: TypeErrorsEnum.NotFound };
+                return { ok: true, message: "Bem vindo(a)!", data: usuario };
+            return { ok: false, message: "CPF ou SENHA incorreto(s).", data: TypeErrorsEnum.NotFound };
         } catch (error) {
             console.log(error);
-            return { ok: false, message: "Internal error!", data: TypeErrorsEnum.Internal };
+            return { ok: false, message: "CPF ou SENHA incorreto(s).", data: TypeErrorsEnum.Internal };
         }
     }
 

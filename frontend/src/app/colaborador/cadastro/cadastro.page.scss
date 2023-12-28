@@ -21,11 +21,19 @@
   text-decoration: none;
 }
 
+.menu a:hover{
+  padding: 10px;
+  background-color: #384285;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
 .img-header {
   height: 70px;
   width: 190px;
+  cursor: pointer;
 }
+
 
 .centralizado {
   display: flex;
@@ -68,6 +76,24 @@
   color: white;
   margin: 0 0 0 10px;
 }
+
+.text{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  gap:20px;
+}
+
+.seta{
+  height: 25px;
+  width: 25px;
+  border-radius: 100%;
+  background-color: white;
+  font-size: 25px;
+  color:  rgba(17, 17, 58, 255);
+  cursor: pointer;
+}
+
 
 
 ion-item {

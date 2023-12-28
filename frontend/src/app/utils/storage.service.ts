@@ -7,6 +7,7 @@ export class StorageService {
 
   private storage: Storage;
 
+
   constructor() { 
     this.storage = window.localStorage;
   }
