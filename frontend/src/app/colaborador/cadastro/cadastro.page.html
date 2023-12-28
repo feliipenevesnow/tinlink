@@ -1,0 +1,118 @@
+<ion-header>
+  <div class="menu">
+    <img class="img-header" src="assets/img/epi.png" alt="Logo da Empresa">
+    <a href="https://www.presidenteepitacio.sp.gov.br/">Prefeitura</a>
+    <a href="/vagas">Vagas</a>
+    <a href="/sobre">Sobre</a>
+    <a href="/entre">Entre</a>
+    <span style="color: white;">Trabalhe Conosco</span>
+  </div>
+  <div class="city">
+
+  </div>
+  <b style="color: white; position: absolute; bottom: 10%; right: 15%;">Presidente Epitácio / SP</b>
+</ion-header>
+<ion-content class="ion-content">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <h2 text-center>Cadastre-se como colaborador 😚.</h2>
+      </ion-col>
+    </ion-row>
+
+    <form [formGroup]="cadastroForm" (ngSubmit)="cadastrarColaborador()">
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">Nome</ion-label>
+            <ion-input formControlName="nome" type="text"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">Sobrenome</ion-label>
+            <ion-input formControlName="sobrenome" type="text"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label position="floating">CPF</ion-label>
+            <ion-input formControlName="cpf"  maxlength="14"  (keyup)="digitaCPF()"></ion-input>
+          </ion-item>
+          
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="floating">Endereço</ion-label>
+            <ion-input formControlName="endereco" type="text"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="floating">Bairro</ion-label>
+            <ion-input formControlName="bairro" type="text"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="floating">Número (Opcional)</ion-label>
+            <ion-input formControlName="numero" max="99999" type="number"></ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">E-mail</ion-label>
+            <ion-input formControlName="email" type="email"></ion-input>
+          </ion-item>
+        </ion-col>
+
+
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">Celular</ion-label>
+            <ion-input formControlName="celular"  maxlength="15"  (keyup)="digitarCelular()" type="text"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">Senha</ion-label>
+            <ion-input formControlName="senha" type="password"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="floating">Senha</ion-label>
+            <ion-input formControlName="confirmaSenha" type="password"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-button expand="block" type="submit" class="buttons">
+            Cadastre-se
+            <div class="buttons-icon">
+              <ion-icon style="font-size: 20px;" name="arrow-forward-outline"></ion-icon>
+            </div>
+          </ion-button>
+
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>
+

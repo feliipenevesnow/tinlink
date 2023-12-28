@@ -38,7 +38,7 @@ model usuario {
   curriculo_curriculo_usuarioTousuario     curriculo[]   @relation("curriculo_usuarioTousuario")
   denuncia_denuncia_usuarioTousuario       denuncia[]    @relation("denuncia_usuarioTousuario")
   notificacoes                             notificacao[] @relation("notificacao_usuarioTousuario")
-  cidade_usuario_cidadeTocidade            cidade        @relation("usuario_cidadeTocidade", fields: [cidade], references: [cidade], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_cidade1")
+  cidade_usuario_cidadeTocidade            cidade        @relation("usuario_cidadeTocidade", fields: [cidade], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_cidade1")
 
   @@index([cidade], map: "fk_usuario_cidade1_idx")
 }
@@ -62,7 +62,7 @@ model candidatura {
 }
 
 model cidade {
-  cidade                         Int       @id @default(autoincrement())
+  codigo                         Int       @id @default(autoincrement())
   municipio                      String    @db.VarChar(100)
   estado                         String    @db.VarChar(2)
   cep                            String    @db.VarChar(10)
@@ -72,7 +72,7 @@ model cidade {
 
 model curriculo {
   codigo                             Int     @default(autoincrement())
-  usuario                            Int
+  usuario                            Int        
   arquivo                            String  @db.Text
   usuario_curriculo_usuarioTousuario usuario @relation("curriculo_usuarioTousuario", fields: [usuario], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "fk_curriculo_usuario1")
 
@@ -107,7 +107,7 @@ model empresa {
   cnpj                          String  @unique(map: "cpf_UNIQUE") @db.VarChar(18)
   confirmado                    Int     @db.TinyInt
   foto_empresa                  String? @db.Text
-  cidade_empresa_cidadeTocidade cidade  @relation("empresa_cidadeTocidade", fields: [cidade], references: [cidade], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_cidade1")
+  cidade_empresa_cidadeTocidade cidade  @relation("empresa_cidadeTocidade", fields: [cidade], references: [codigo], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_cidade1")
   vaga_vaga_empresaToempresa    vaga[]  @relation("vaga_empresaToempresa")
 
   @@index([cidade], map: "fk_empresa_cidade1_idx")

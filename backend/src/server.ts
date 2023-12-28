@@ -1,7 +1,10 @@
 require("dotenv").config();
 const morgan = require('morgan');
+
 import UsuarioRoutes from './rotas/UsuarioRoutes';
 import ArquivoRoutes from './rotas/ArquivoRoutes';
+import VagaRoutes from './rotas/VagaRoutes';
+
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -30,7 +33,7 @@ process.env.NODE_ENV === 'production' ? app.use(morgan('combined')) : ''
 
 
 app.use('/usuario', UsuarioRoutes);
-app.use('/arquivos', ArquivoRoutes);
+app.use('/arquivos', ArquivoRoutes)
 
 
 app.listen(PORT as number, () => console.log(`Listening on all interfaces:${PORT}`));
