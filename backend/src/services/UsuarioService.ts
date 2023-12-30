@@ -1,11 +1,45 @@
-import { usuario } from '@prisma/client';
+
 import { prisma } from '../../prisma/client';
 import { TypeErrorsEnum } from '../enum/TypeErrorEnum';
 import { compare } from "bcrypt";
 import { hash } from "bcrypt";
+import * as nodemailer from 'nodemailer';
 
 export class UsuarioService {
 
+    async enviarEmail(usuario: any) {
+        let transporter = nodemailer.createTransport({
+          service: 'outlook',
+          auth: {
+            user: 'empregos.meu.municipio@outlook.com',
+            pass: 'ak47empregos'
+          }
+        });
+    
+        let mailOptions = {
+          from: 'empregos.meu.municipio@outlook.com',
+          to: usuario.email,
+          subject: 'Código de acesso',
+          html: `
+            <p>Olá, <strong>${usuario.nome}</strong>,</p>
+            <p>Estamos felizes em tê-lo conosco 😍. Aqui está o seu código de acesso:</p>
+            <h2 style="text-align: center; font-size: 2em;"><strong>${usuario.codigo_confirmacao}</strong></h2>
+            <p>Estamos ansiosos para vê-lo em nossa plataforma e fazer parte de nossa comunidade ❤️.</p>
+            <p>Atenciosamente,</p>
+            <p>👋 Equipe Empregos Meu Município</p>
+          `
+        };
+    
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('E-mail enviado: ' + info.response);
+          }
+        });
+    }
+    
+      
     async findMany() {
         try {
 
@@ -42,9 +76,10 @@ export class UsuarioService {
                     senha: usuario.senha,
                     celular: usuario.celular,
                     confirmado: usuario.confirmado,
+                    codigo_confirmacao: usuario.codigo_confirmacao,
                     nivel_acesso: usuario.nivel_acesso,
                     numero: Number(usuario.numero),
-                    foto_perfil: usuario.foto_perfil,
+                    foto: usuario.foto,
                     biografia: usuario.biografia,
                     cidade_usuario_cidadeTocidade: {
                         connect: {
@@ -53,6 +88,9 @@ export class UsuarioService {
                     }
                 }
             })
+
+            this.enviarEmail(usuario);
+
             return { ok: true, message: "Cadastro realizado com sucesso! 😍.", data: createdUsuario };
         } catch (error: any) {
             console.log(error)
@@ -69,16 +107,37 @@ export class UsuarioService {
 
 
 
-    async update(usuario: any, id: number) {
+    async update(usuario: any, codigo: number) {
+        console.log(usuario)
         try {
             if (usuario.senha)
                 usuario.senha = await hash(usuario.senha, 8);
-            usuario.ultima_atualizacao = new Date();
+
             const updatedUsuario = await prisma.usuario.update({
                 where: {
-                    codigo: +id,
+                    codigo: usuario.codigo,
                 },
-                data: usuario,
+                data: {
+                    nome: usuario.nome,
+                    sobrenome: usuario.sobrenome,
+                    cpf: usuario.cpf,
+                    endereco: usuario.endereco,
+                    bairro: usuario.bairro,
+                    email: usuario.email,
+                    senha: usuario.senha,
+                    celular: usuario.celular,
+                    confirmado: usuario.confirmado,
+                    codigo_confirmacao: usuario.codigo_confirmacao,
+                    nivel_acesso: usuario.nivel_acesso,
+                    numero: Number(usuario.numero),
+                    foto: usuario.foto,
+                    biografia: usuario.biografia,
+                    cidade_usuario_cidadeTocidade: {
+                        connect: {
+                            codigo: Number(usuario.cidade)
+                        }
+                    }
+                }
             })
             return { ok: true, message: "Updated successfully!", data: updatedUsuario };
         } catch (error) {

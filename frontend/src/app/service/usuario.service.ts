@@ -8,7 +8,7 @@ import { AuthenticationService } from '../utils/authentication.service';
 })
 export class UsuarioService {
 
-  constructor(private http: HttpClient,) { }
+  constructor(private http: HttpClient, private authentication: AuthenticationService) { }
 
   async findMany(): Promise<any> {
     try {
@@ -34,6 +34,15 @@ export class UsuarioService {
   }
 
 
-
+  async update(usuario: any): Promise<any>  {
+    try {
+      const response = await this.http
+        .put(`${environment.API}/usuario/update/${usuario.codigo}`, usuario)
+        .toPromise()
+      return response;
+    } catch (error) {  
+     return error
+    }
+  }
 
 }

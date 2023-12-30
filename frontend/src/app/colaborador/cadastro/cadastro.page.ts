@@ -34,10 +34,11 @@ export class CadastroPage implements OnInit {
       confirmaSenha: ['', Validators.required],
       celular: ['', Validators.required],
       numero: [''],
-      foto_perfil: [''],
+      foto: [''],
       biografia: [''],
       cidade: ['1'],
       confirmado: ['0'],
+      codigo_confirmacao: [],
       nivel_acesso: ['COLABORADOR']
     });
   }
@@ -63,9 +64,13 @@ export class CadastroPage implements OnInit {
     await toast.present();
   }
 
+  gerarCodigoConfirmacao() {
+    let codigo = Math.floor(10000 + Math.random() * 90000);
+    return codigo;
+  }
 
   async cadastrarColaborador() {
-    let campos = ['nome', 'sobrenome', 'cpf', 'endereco', 'bairro', 'email', 'senha', 'confirmaSenha', 'celular', 'numero', 'foto_perfil', 'biografia'];
+    let campos = ['nome', 'sobrenome', 'cpf', 'endereco', 'bairro', 'email', 'senha', 'confirmaSenha', 'celular', 'numero', 'foto', 'biografia'];
     for (let campo of campos) {
       if (this.cadastroForm.controls[campo].invalid) {
         this.presentToast('bottom', 'O campo ' + campo + ' está incompleto.', 'warning');
@@ -98,6 +103,8 @@ export class CadastroPage implements OnInit {
       this.presentToast('bottom', 'O número de celular informado é inválido.', 'danger');
       return;
     }
+
+    this.cadastroForm.get('codigo_confirmacao')?.setValue(this.gerarCodigoConfirmacao());
 
     let usuario = this.cadastroForm.value;
 

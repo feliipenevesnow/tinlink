@@ -57,9 +57,19 @@
   background-color: rgba(17, 17, 58, 255);
 }
 
+.ion-content{
+  background-color: rgba(17, 17, 58, 255);
+}
+
 .cards {
   display: flex;
   justify-content: space-around;
+  background-color: rgba(17, 17, 58, 255);
+}
+
+.codigo{
+  padding: 0 10px 0 10px;
+  margin: 50px 0 50px 0;
 }
 
 .card {
@@ -74,7 +84,6 @@
   --border-radius: 50px;
   --background: white;
   --color: rgba(17, 17, 58, 255);
-
 }
 
 .buttons-icon {
@@ -134,7 +143,7 @@
   }
 }
 
-/* CSS for mobile devices */
+
 @media (max-width: 480px) {
   .menu {
     width: 100%;
@@ -145,8 +154,21 @@
   .cards {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
   }
+  .main-title{
+    font-size: 35px;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+  }
+  .centralizado {
+    display: inline;
 
- 
+  }
+  .codigo{
+    padding: 0 10px 0 10px;
+    margin: 50px 0 30px 0;
+  }
 }

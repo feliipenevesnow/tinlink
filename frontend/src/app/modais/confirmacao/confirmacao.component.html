@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Confirme o Código</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="fecharModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="modal-content">
+    <div style="display: flex; flex-direction: row; justify-content: space-around; margin-top: 60px;">
+      <ion-input [(ngModel)]="um" class="inputs input-has-focus"></ion-input>
+      <ion-input [(ngModel)]="dois" class="inputs input-has-focus"></ion-input>
+      <ion-input [(ngModel)]="tres" class="inputs input-has-focus"></ion-input>
+      <ion-input [(ngModel)]="quatro" class="inputs input-has-focus"></ion-input>
+      <ion-input [(ngModel)]="cinco" class="inputs input-has-focus"></ion-input>
+    </div>
+    <ion-button (click)="verificaCodigo()" class="codigo buttons">Confirmar Código
+      <div class="buttons-icon" style="width: 25px; height: 25px">
+        <ion-icon style="font-size: 15px;" name="arrow-forward-outline"></ion-icon>
+      </div>
+    </ion-button>
+  </div>
+</ion-content>

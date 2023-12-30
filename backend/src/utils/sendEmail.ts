@@ -35,9 +35,7 @@ export async function sendEmailHTML(email: string, subject: string, html: string
 }
 
 const transporter = createTransport({
-  host: 'nao-responda.ifsp.edu.br',
-  port: 587,
-  secure: false,
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_USERNAME,
     pass: process.env.EMAIL_PASSWORD

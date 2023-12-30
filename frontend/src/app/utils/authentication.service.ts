@@ -88,7 +88,7 @@ export class AuthenticationService implements OnInit {
       reader.readAsDataURL(imageBlob);
       const imageDataURL: string = await readerPromise;
   
-      resultado.data.foto_perfil = imageDataURL;
+      resultado.data.foto = imageDataURL;
   
       this.token = resultado.token;
       this.storage.set("token", this.token);
@@ -132,7 +132,7 @@ export class AuthenticationService implements OnInit {
       reader.readAsDataURL(imageBlob);
       const imageDataURL: string = await readerPromise;
   
-       resultado.data.foto_empresa = imageDataURL;
+       resultado.data.foto = imageDataURL;
   
       this.token = resultado.token;
       this.storage.set("token", this.token);

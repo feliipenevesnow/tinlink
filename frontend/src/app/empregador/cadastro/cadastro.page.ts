@@ -33,8 +33,9 @@ export class CadastroPage implements OnInit {
       confirmaSenha: ['', Validators.required],
       celular: ['', Validators.required],
       numero: [''],
-      foto_empresa: [''],
+      foto: [''],
       cidade: ['1'],
+      codigo_confirmacao: [],
       confirmado: ['0'],
     });
   }
@@ -60,9 +61,13 @@ export class CadastroPage implements OnInit {
     await toast.present();
   }
 
+  gerarCodigoConfirmacao() {
+    let codigo = Math.floor(10000 + Math.random() * 90000);
+    return codigo;
+  }
 
   async cadastrarEmpregador() {
-    let campos = ['nome', 'cnpj', 'endereco', 'bairro', 'email', 'senha', 'confirmaSenha', 'celular', 'numero', 'foto_empresa'];
+    let campos = ['nome', 'cnpj', 'endereco', 'bairro', 'email', 'senha', 'confirmaSenha', 'celular', 'numero', 'foto'];
     for (let campo of campos) {
       console.log(campo);
       if (this.cadastroForm.controls[campo].invalid) {
@@ -101,7 +106,10 @@ export class CadastroPage implements OnInit {
       return;
     }
 
+    this.cadastroForm.get('codigo_confirmacao')?.setValue(this.gerarCodigoConfirmacao());
+
     let empresa = this.cadastroForm.value;
+    
 
     const response = await this.empresaService.create(empresa);
     

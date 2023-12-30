@@ -4,14 +4,13 @@
     <a class="buttons-menu-a" href="https://www.presidenteepitacio.sp.gov.br/">Prefeitura</a>
     <a href="/vagas">Vagas</a>
     <a href="/sobre">Sobre</a>
-    <a href="/sobre">Painel</a>
+    <a (click)="enviarSMS()"> Painel</a>
     <a *ngIf="usuarioLogado == null" (click)="logar()">Entre</a>
     <a *ngIf="usuarioLogado != null" (click)="logout()">Sair</a>
     <span *ngIf="usuarioLogado == null" style="color: white;">Trabalhe Conosco</span>
     <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
       <span *ngIf="usuarioLogado != null" style="color: white;">{{usuarioLogado.nome}}</span>
-      <img class="img-perfil" *ngIf="usuarioLogado != null && usuarioLogado.nivel_acesso == 'COLABORADOR' && usuarioLogado.foto_perfil" [src]="usuarioLogado.foto_perfil" alt="">  
-      <img class="img-perfil" *ngIf="usuarioLogado != null && usuarioLogado.foto_empresa" [src]="usuarioLogado.foto_empresa" alt="">  
+      <img class="img-perfil" *ngIf="usuarioLogado != null && usuarioLogado.foto" [src]="usuarioLogado.foto" alt="">
     </div>
   </div>
   <div class="city">
@@ -20,15 +19,19 @@
   <b style="color: white; position: absolute; bottom: 10%; right: 15%;">Presidente Epitácio / SP</b>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-content">
   <div class="vertical">
     <div class="centralizado vertical">
       <h1 class="main-title"> Encontre emprego dentro da sua própria residência </h1>
       <div class="div-data"><ion-icon color="#e8aff6" name="calendar-outline"></ion-icon> <b style="margin-left: 10px;"
           color="#e8aff6">{{mes}} {{dia}}, {{ano}}</b> </div>
     </div>
+    <ion-button *ngIf="usuarioLogado != null && usuarioLogado.confirmado == false" class="codigo buttons" (click)="abrirConfirmacao()">Verifique sua conta
+      <div class="buttons-icon" style="width: 25px; height: 25px">
+        <ion-icon style="font-size: 15px;" name="arrow-forward-outline"></ion-icon>
+      </div>
+    </ion-button>
 
-    <div>
       <div class="cards">
 
         <ion-card class="card">
@@ -78,7 +81,7 @@
 
 
       </div>
-    </div>
+  
 
 
   </div>

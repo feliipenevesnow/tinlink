@@ -43,7 +43,8 @@ export class EmpresaService {
                     celular: empresa.celular,
                     confirmado: empresa.confirmado,
                     numero: Number(empresa.numero),
-                    foto_empresa: empresa.foto_perfil,
+                    codigo_confirmacao: empresa.codigo_confirmacao,
+                    foto: empresa.foto,
                     cidade_empresa_cidadeTocidade: {
                         connect: {
                             codigo: Number(empresa.cidade)

@@ -33,7 +33,7 @@ export class UsuarioController {
 
  
     async update(req: Request, res: Response) {
-        const response = await usuarioService.update(req.body, Number(req.params.id));
+        const response = await usuarioService.update(req.body, Number(req.params.codigo));
         if (response.ok)
             return res.status(200).send(response)
         else {
